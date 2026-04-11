@@ -74,8 +74,7 @@ function CardContent({ faqIndex }: { faqIndex: number }) {
         </div>
       </div>
 
-      // Question & clipped answer — text +20% (minus 5%)
-            <div className="flex flex-1 flex-col gap-2.5 px-4 pb-6 pt-5">
+      <div className="flex flex-1 flex-col gap-2.5 px-4 pb-6 pt-5">
               <h3
                 className="font-charlotte leading-[1.22]"
                 style={{ fontSize: "1.16rem", color: "#991001" }}

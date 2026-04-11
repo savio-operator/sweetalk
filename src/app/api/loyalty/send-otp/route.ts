@@ -59,9 +59,10 @@ export async function POST(request: NextRequest) {
     const waUrl = process.env.WA_SERVER_URL;
     const waSecret = process.env.WA_SERVER_SECRET;
     if (waUrl && waSecret) {
+      const to = normalized.length === 10 ? `91${normalized}` : normalized;
+      let waOk = false;
       try {
-        const to = normalized.length === 10 ? `91${normalized}` : normalized;
-        await fetch(`${waUrl}/send`, {
+        const waRes = await fetch(`${waUrl}/send`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -72,9 +73,18 @@ export async function POST(request: NextRequest) {
             message: `Your Sweet Circle OTP is *${otp}*. Valid for 5 minutes.\n\nNever share this code with anyone.`,
           }),
         });
+        waOk = waRes.ok;
+        if (!waOk) {
+          console.error("[send-otp] WhatsApp server responded:", waRes.status, await waRes.text());
+        }
       } catch (err) {
         console.error("[send-otp] WhatsApp send failed:", err);
-        // Non-fatal — log and continue
+      }
+      if (!waOk) {
+        return NextResponse.json(
+          { error: "WhatsApp delivery failed. Please try again or contact staff." },
+          { status: 503 }
+        );
       }
     } else {
       // Dev mode: log OTP to console

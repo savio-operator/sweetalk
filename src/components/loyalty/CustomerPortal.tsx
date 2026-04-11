@@ -86,8 +86,17 @@ export default function CustomerPortal() {
         {step === "phone" && (
           <PhoneStep
             onVerified={(tokenHash, pinSet, name) => {
+              if (!tokenHash) {
+                // Should not happen in practice — surface clearly rather than hanging
+                console.error("[CustomerPortal] verify-otp returned null token_hash");
+                return;
+              }
               // Exchange token for session
-              supabase.auth.verifyOtp({ token_hash: tokenHash, type: "email" }).then(({ data }) => {
+              supabase.auth.verifyOtp({ token_hash: tokenHash, type: "email" }).then(({ data, error }) => {
+                if (error) {
+                  console.error("[CustomerPortal] verifyOtp error:", error.message);
+                  return;
+                }
                 if (data.user) {
                   setUser(data.user);
                   if (!pinSet) setStep("set-pin");

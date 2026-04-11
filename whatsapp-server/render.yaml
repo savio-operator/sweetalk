@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: sweetalks-wa-server
+    runtime: node
+    rootDir: .
+    # Install Chromium before npm install so puppeteer-core can find it
+    buildCommand: apt-get install -y chromium-browser && npm install
+    startCommand: node index.js
+    disk:
+      name: wa-auth
+      mountPath: /app/.wwebjs_auth
+      sizeGB: 1
+    envVars:
+      - key: PUPPETEER_EXECUTABLE_PATH
+        value: /usr/bin/chromium-browser
+      - key: WA_SERVER_SECRET
+        sync: false   # set manually in Render dashboard
+      - key: NODE_ENV
+        value: production

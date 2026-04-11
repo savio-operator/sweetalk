@@ -13,7 +13,19 @@ export default function Hero() {
       tl.from(".hero-eyebrow", { y: 30, opacity: 0, duration: 0.9, ease: "power3.out" })
         .from(".hero-headline", { y: 50, opacity: 0, duration: 0.9, ease: "power3.out" }, "-=0.55")
         .from(".hero-sub", { y: 20, opacity: 0, duration: 0.9, ease: "power3.out" }, "-=0.55")
-        .from(".hero-buttons", { y: 20, opacity: 0, duration: 0.9, ease: "power3.out" }, "-=0.55");
+        .from(".hero-buttons", { y: 20, opacity: 0, duration: 0.9, ease: "power3.out" }, "-=0.55")
+        .from(".hero-scroll", { opacity: 0, y: 10, duration: 1, ease: "power2.out" }, "-=0.3");
+
+      // Repeating line animation
+      gsap.fromTo(".scroll-bar-inner", 
+        { yPercent: -100 },
+        {
+          yPercent: 100,
+          duration: 2,
+          repeat: -1,
+          ease: "power1.inOut",
+        }
+      );
     }, sectionRef);
 
     return () => ctx.revert();
@@ -53,15 +65,24 @@ export default function Hero() {
            Made with love. Remembered always.
          </p>
 
-         <div className="hero-buttons flex flex-wrap justify-center gap-3 mt-8 md:mt-8">
-            <a href="#menu" className="btn-pill btn-pill-primary !px-6 md:!px-8">
-              Explore Menu
-            </a>
-            <a href="https://www.zomato.com/" target="_blank" rel="noreferrer" className="btn-pill btn-pill-outline !px-6 md:!px-8">
-              Order on Zomato
-            </a>
+          <div className="hero-buttons flex flex-wrap justify-center gap-3 mt-8 md:mt-8">
+             <a href="#menu" className="btn-pill btn-pill-primary !px-6 md:!px-8">
+               Explore Menu
+             </a>
+             <a href="https://www.zomato.com/" target="_blank" rel="noreferrer" className="btn-pill btn-pill-outline !px-6 md:!px-8">
+               Order on Zomato
+             </a>
+          </div>
+       </div>
+
+       {/* Scroll Down Indicator */}
+       <div className="hero-scroll absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2">
+         <span className="font-jost text-[0.6rem] uppercase tracking-[4px] text-brand-off-white/40">Scroll</span>
+         <div className="w-[1.5px] h-12 bg-white/10 overflow-hidden relative">
+           <div className="scroll-bar-inner absolute top-0 left-0 w-full h-full bg-brand-crimson" />
          </div>
-      </div>
+       </div>
     </section>
+
   );
 }
