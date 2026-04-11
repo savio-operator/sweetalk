@@ -1,0 +1,240 @@
+@import "tailwindcss";
+
+/* ─── Charlotte Display Font ─── */
+@font-face {
+font-family: "Charlotte";
+src: url("/fonts/charlotte.ttf") format("truetype");
+font-weight: normal;
+font-style: normal;
+font-display: swap;
+}
+
+/* ─── Brand Tokens ─── */
+:root {
+--crimson: #ba1c0a;
+--deep-red: #ba1c0a;
+--teal: #2ba8b2;
+--light-teal: #2ba8b2;
+--off-white: #f8f2f2;
+--near-white: #f8f2f2;
+--pure-white: #ffffff;
+--dark-bg: #0d0d0d;  --teal-bg: #2BA8B2;
+--teal-bg: #2BA8B2;
+}
+
+@theme inline {
+--color-brand-crimson: var(--crimson);
+--color-brand-deep-red: var(--deep-red);
+--color-brand-teal: var(--teal);
+--color-brand-light-teal: var(--light-teal);
+--color-brand-off-white: var(--off-white);
+--color-brand-near-white: var(--near-white);
+--color-brand-white: var(--pure-white);
+--color-brand-dark: var(--dark-bg);  --color-brand-teal-bg: var(--teal-bg);
+--color-brand-teal-bg: var(--teal-bg);
+--font-charlotte: "Charlotte", cursive;
+--font-jost: "Jost", sans-serif;
+--font-lora: "Lora", serif;
+}
+
+/* ─── Reset & Base ─── */
+*,
+*::before,
+*::after {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
+
+html {
+  font-size: 93%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (max-width: 1023px) {
+  html {
+    scroll-snap-type: y mandatory;
+  }
+}
+
+@media (max-width: 767px) {
+  html {
+    font-size: 76%; /* Reduced from 82% */
+  }
+
+/* Compact pills on mobile */
+.btn-pill {
+padding: 10px 20px;
+font-size: 0.55rem;
+letter-spacing: 1.5px;
+}
+
+/* Gallery heading 20% smaller (74 * 0.75 = 55) * 0.93 ≈ 51 */
+.gallery-heading-text {
+font-size: 51px !important;
+}
+
+/* Location heading 20% smaller (96 * 0.75 = 72) * 0.93 ≈ 67 */
+.location-heading-text {
+font-size: 67px !important;
+}
+
+/* Testimonials heading 20% smaller (74 * 0.75 = 56) * 0.93 ≈ 52 */
+.testimonials-heading-text {
+font-size: 52px !important;
+}
+}
+
+body {
+background: var(--near-white);
+color: var(--dark-bg);
+font-family: var(--font-lora);
+overflow-x: hidden;
+}
+
+/* Global h2 reduction */
+h2 {
+  font-size: 0.93em;
+}
+
+/* ─── Typography Utilities ─── */
+.font-charlotte {
+font-family: "Charlotte", cursive;
+}
+.font-jost {
+font-family: "Jost", sans-serif;
+}
+.font-lora {
+font-family: "Lora", serif;
+}
+
+/* ─── Hide Scrollbar ─── */
+.hide-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+
+/* ─── Button Base ─── */
+.btn-pill {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+gap: 0.5rem;
+position: relative;
+overflow: hidden;
+border-radius: 50px;
+padding: 14px 32px;
+font-family: "Jost", sans-serif;
+font-size: 0.7rem;
+letter-spacing: 2px;
+text-transform: uppercase;
+font-weight: 500;
+cursor: pointer;
+transition: transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+box-shadow 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+border: none;
+text-decoration: none;
+}
+
+.btn-pill:hover {
+transform: scale(1.03);
+}
+
+.btn-pill-primary {
+background: var(--crimson);
+color: #fff;
+}
+
+.btn-pill-primary:hover {
+background: var(--deep-red);
+}
+
+.btn-pill-outline {
+background: transparent;
+border: 1px solid rgba(255, 255, 255, 0.3);
+color: #fff;
+}
+
+.btn-pill-outline:hover {
+background: rgba(255, 255, 255, 0.1);
+}
+
+/* ─── Card Base ─── */
+.card-base {
+background: var(--pure-white);
+border-radius: 1rem;
+border: 1px solid var(--off-white);
+overflow: hidden;
+transition: transform 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+box-shadow 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.card-base:hover {
+transform: translateY(-4px);
+box-shadow: 0 16px 40px rgba(186, 28, 10, 0.12);
+}
+
+/* ─── Section Label ─── */
+.section-label {
+font-family: "Jost", sans-serif;
+font-size: 0.6rem;
+letter-spacing: 4px;
+text-transform: uppercase;
+color: var(--teal);
+font-weight: 500;
+}
+
+/* ─── Scroll-reveal utility (initial state) ─── */
+.sr-hidden {
+opacity: 0;
+transform: translateY(40px);
+}
+
+/* ─── Prevent fixed navbar from obscuring anchored sections ─── */
+section[id] {
+scroll-margin-top: 80px;
+}
+
+/* ─── Custom Scrollbar ─── */
+::-webkit-scrollbar {
+width: 6px;
+height: 6px;
+}
+::-webkit-scrollbar-track {
+background: var(--near-white);
+}
+::-webkit-scrollbar-thumb {
+background: var(--off-white);
+border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+background: var(--light-teal);
+}
+
+/* ─── Text Selection ─── */
+::selection {
+background: var(--crimson);
+color: #fff;
+}
+
+/* ─── Scroll Snap Utilities ─── */
+.snap-section {
+min-height: 100vh;
+width: 100%;
+display: flex;
+flex-direction: column;
+background-color: transparent !important;
+}
+
+@media (max-width: 1023px) {
+.snap-section {
+scroll-snap-align: start;
+}
+}
+
+/* ─── Focus Visible ─── */
+:focus-visible {
+outline: 2px solid var(--teal);
+outline-offset: 2px;
+border-radius: 2px;
+}
+

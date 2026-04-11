@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Allow: /menu
+Allow: /blog
+Allow: /blog/
+
+Disallow: /api/
+Disallow: /studio/
+
+Sitemap: https://sweettalks.in/sitemap.xml

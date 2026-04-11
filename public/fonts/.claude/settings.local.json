@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:www.tripadvisor.in)",
+      "WebFetch(domain:www.zomato.com)"
+    ]
+  }
+}

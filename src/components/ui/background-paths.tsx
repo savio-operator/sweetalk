@@ -1,0 +1,66 @@
+"use client"
+
+import { motion } from "framer-motion"
+
+/**
+ * FloatingPaths — 36 animated SVG curves that flow across the section.
+ *
+ * Props
+ *   position     –  1 or -1, mirrors the curve family left ↔ right
+ *   color        –  CSS color string (used via currentColor); defaults to brand teal
+ *   opacityScale –  multiplies the base stroke-opacity ramp; keep ≤ 0.3 for subtlety
+ */
+export function FloatingPaths({
+  position,
+  color = "#2BA8B2",
+  opacityScale = 0.15,
+}: {
+  position: number
+  color?: string
+  opacityScale?: number
+}) {
+  const paths = Array.from({ length: 36 }, (_, i) => ({
+    id: i,
+    d: `M-${380 - i * 5 * position} -${189 + i * 6}C-${
+      380 - i * 5 * position
+    } -${189 + i * 6} -${312 - i * 5 * position} ${216 - i * 6} ${
+      152 - i * 5 * position
+    } ${343 - i * 6}C${616 - i * 5 * position} ${470 - i * 6} ${
+      684 - i * 5 * position
+    } ${875 - i * 6} ${684 - i * 5 * position} ${875 - i * 6}`,
+    width: 0.5 + i * 0.03,
+  }))
+
+  return (
+    <div className="absolute inset-0 pointer-events-none">
+      <svg
+        className="w-full h-full"
+        style={{ color }}
+        viewBox="0 0 696 316"
+        fill="none"
+        aria-hidden="true"
+      >
+        {paths.map((path) => (
+          <motion.path
+            key={path.id}
+            d={path.d}
+            stroke="currentColor"
+            strokeWidth={path.width}
+            strokeOpacity={(0.1 + path.id * 0.03) * opacityScale}
+            initial={{ pathLength: 0.3, opacity: 0.6 }}
+            animate={{
+              pathLength: 1,
+              opacity: [0.3, 0.6, 0.3],
+              pathOffset: [0, 1, 0],
+            }}
+            transition={{
+              duration: 20 + (path.id % 7) * 3,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+          />
+        ))}
+      </svg>
+    </div>
+  )
+}
