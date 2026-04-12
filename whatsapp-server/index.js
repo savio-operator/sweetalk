@@ -34,6 +34,8 @@ client.on('auth_failure', (msg) => {
 
 client.initialize();
 
+app.get('/', (req, res) => res.status(200).send('ok'));
+
 app.post('/send', async (req, res) => {
     const { to, message } = req.body;
     const authHeader = req.headers.authorization;
