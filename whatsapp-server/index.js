@@ -1,23 +1,21 @@
 const { Client, LocalAuth } = require('whatsapp-web.js');
-// puppeteer v20+ requires explicit browser installation and a different path API
-const { executablePath } = require('puppeteer');
 const express = require('express');
 const app = express();
 
 app.use(express.json());
 
+// PUPPETEER_EXECUTABLE_PATH is set to /usr/bin/chromium in the Dockerfile
 const client = new Client({
     authStrategy: new LocalAuth(),
     puppeteer: {
         headless: true,
-        executablePath: executablePath('chrome'),
+        executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
         args: [
             '--no-sandbox',
             '--disable-setuid-sandbox',
             '--disable-dev-shm-usage',
             '--disable-gpu',
             '--no-zygote',
-            '--single-process',
         ],
     },
 });
@@ -30,12 +28,16 @@ client.on('ready', () => {
     console.log('WhatsApp Client is ready!');
 });
 
+client.on('auth_failure', (msg) => {
+    console.error('Auth failure:', msg);
+});
+
 client.initialize();
 
 app.post('/send', async (req, res) => {
     const { to, message } = req.body;
     const authHeader = req.headers.authorization;
-    
+
     if (authHeader !== `Bearer ${process.env.WA_SERVER_SECRET}`) {
         return res.status(401).send('Unauthorized');
     }
