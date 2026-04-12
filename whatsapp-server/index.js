@@ -1,5 +1,6 @@
 const { Client, LocalAuth } = require('whatsapp-web.js');
-const puppeteer = require('puppeteer');
+// puppeteer v20+ requires explicit browser installation and a different path API
+const { executablePath } = require('puppeteer');
 const express = require('express');
 const app = express();
 
@@ -9,13 +10,14 @@ const client = new Client({
     authStrategy: new LocalAuth(),
     puppeteer: {
         headless: true,
-        // Use the Chrome that puppeteer downloads during npm install
-        executablePath: puppeteer.executablePath(),
+        executablePath: executablePath('chrome'),
         args: [
             '--no-sandbox',
             '--disable-setuid-sandbox',
             '--disable-dev-shm-usage',
             '--disable-gpu',
+            '--no-zygote',
+            '--single-process',
         ],
     },
 });
