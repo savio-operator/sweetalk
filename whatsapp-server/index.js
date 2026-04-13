@@ -98,6 +98,10 @@ app.post('/send', async (req, res) => {
         return res.status(401).send('Unauthorized');
     }
 
+    if (!isReady) {
+        return res.status(503).send('WhatsApp client not ready. Scan QR at /qr first.');
+    }
+
     try {
         await client.sendMessage(`${to}@c.us`, message);
         res.status(200).send('Message sent');
